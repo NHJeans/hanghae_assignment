@@ -9,7 +9,8 @@ const router = express.Router();
 // 게시글 생성
 router.post("/posts", authMiddleware, createPost);
 // 게시글 목록 조회
-router.get("/posts", authMiddleware, listPosts);
+/* 게시글 목록은 누구나 조회 가능해야하므로 authMiddleware를 제거했습니다. */ 
+router.get("/posts", listPosts);
 // 게시글 상세 조회
 router.get("/posts/:postId", getOnePost);
 // 게시글 수정
