@@ -96,8 +96,14 @@ export const getOnePost = async (req, res, next) => {
 
 // 게시글 수정
 export const updatePost = async (req, res, next) => {
+  if (!req.user) {
+    return res
+      .status(403)
+      .send({ errorMessage: "로그인이 필요한 기능입니다." });
+  }
   const { userId } = req.user;
   const { title, content } = req.body;
+  const postId = req.params.postId;
 
   if (!title || !content) {
     return res
@@ -117,17 +123,8 @@ export const updatePost = async (req, res, next) => {
   }
 
   try {
-    // 해당 게시글이 존재하는지 확인
-    const post = await prisma.posts.findUnique({
-      where: { postId: req.params.postId },
-    });
-
-    // 게시글이 존재하지 않는 경우
-    if (!post) {
-      return res
-        .status(404)
-        .json({ errorMessage: "게시글이 존재하지 않습니다." });
-    }
+    // 해당 게시글이 존재하는지 확인, 존재하지 않을경우 getPostById에서 throw
+    const post = await getPostById(postId);
 
     if (post.UserId !== userId) {
       return res
@@ -152,18 +149,11 @@ export const updatePost = async (req, res, next) => {
 /** 게시글 삭제 API **/
 export const deletePost = async (req, res, next) => {
   const { userId } = req.user;
-
+  const postId = req.params.postId;
   try {
-    const post = await prisma.posts.findUnique({
-      where: { postId: req.params.postId },
-    });
-
-    if (!post) {
-      return res
-        .status(404)
-        .json({ errorMessage: "게시글이 존재하지 않습니다." });
-    }
-
+    // 해당 게시글이 존재하는지 확인, 존재하지 않을경우 getPostById에서 throw
+    const post = await getPostById(postId);
+    
     if (post.UserId !== userId) {
       return res
         .status(403)
@@ -178,4 +168,15 @@ export const deletePost = async (req, res, next) => {
       .status(400)
       .json({ errorMessage: "게시글 작성에 실패하였습니다." });
   }
+};
+
+/* 게시글 존재여부는 중복되므로 함수로 분리 */
+const getPostById = async (postId) => {
+  const post = await prisma.posts.findUnique({
+    where: { postId },
+  });
+  if (!post) {
+    throw new Error("게시글이 존재하지 않습니다.");
+  }
+  return post;
 };
