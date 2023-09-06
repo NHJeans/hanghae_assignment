@@ -33,18 +33,8 @@ export const createPost = async (req, res, next) => {
 export const listPosts = async (req, res) => {
   try {
     const rawData = await prisma.posts.findMany({
-      select: {
-        postId: true,
-        title: true,
-        createdAt: true,
-        updatedAt: true,
-        User: {
-          select: {
-            userId: true,
-            nickname: true,
-          },
-        },
-      },
+      /* 이부분 include로 수정 */
+      include: { User: true },
       orderBy: {
         createdAt: "desc",
       },
@@ -71,22 +61,11 @@ export const getOnePost = async (req, res, next) => {
     const { postId } = req.params;
 
     const post = await prisma.posts.findUnique({
+      /* 이부분 include로 수정 */
       where: {
         postId: postId,
       },
-      select: {
-        postId: true,
-        title: true,
-        content: true,
-        createdAt: true,
-        updatedAt: true,
-        User: {
-          select: {
-            userId: true,
-            nickname: true,
-          },
-        },
-      },
+      include: { User: true },
     });
 
     if (!post) {
