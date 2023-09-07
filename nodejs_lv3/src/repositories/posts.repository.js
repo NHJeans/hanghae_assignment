@@ -62,19 +62,15 @@ class PostRepository {
   };
 
   updatePost = async (userId, postId, title, content) => {
-    const post = await getPostById(postId);
+    const post = await this.getPostById(postId); // <- 여기를 수정
 
     if (post.UserId !== userId) {
       throw new CustomError(403, "게시글의 수정의 권한이 존재하지 않습니다.");
     }
-
     await prisma.posts.update({
-      where: { postId: req.params.postId },
+      where: { postId: postId },
       data: { title, content },
     });
-    console.log("DB Post User ID:", post.userId);
-    console.log("Request User ID:", req.user.userId);
-
     return { message: "게시글을 수정하였습니다." };
   };
 

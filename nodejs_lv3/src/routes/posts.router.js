@@ -1,15 +1,19 @@
-
-import express from 'express';
-import { createPost, listPosts, getOnePost, updatePost, deletePost } from '../controllers/posts.controllers.js';
-import authMiddleware from '../middlewares/auth.middleware.js';
-
+import express from "express";
+import {
+  createPost,
+  listPosts,
+  getOnePost,
+  updatePost,
+  deletePost,
+} from "../controllers/posts.controllers.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 // 게시글 생성
 router.post("/posts", authMiddleware, createPost);
 // 게시글 목록 조회
-/* 게시글 목록은 누구나 조회 가능해야하므로 authMiddleware를 제거했습니다. */ 
+/* 게시글 목록은 누구나 조회 가능해야하므로 authMiddleware를 제거했습니다. */
 router.get("/posts", listPosts);
 // 게시글 상세 조회
 router.get("/posts/:postId", getOnePost);
@@ -51,7 +55,6 @@ export default router;
 //   }
 // });
 
-
 // /** 게시글 목록 조회 API **/
 // router.get("/posts", authMiddleware, async (req, res) => {
 //   try {
@@ -87,7 +90,6 @@ export default router;
 //     res.status(500).json({ error: "An error occurred while fetching posts." });
 //   }
 // });
-
 
 // /** 게시글 상세 조회 API **/
 // router.get("/posts/:postId", async (req, res, next) => {
@@ -137,5 +139,3 @@ export default router;
 // });
 
 // export default router;
-
-

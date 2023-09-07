@@ -34,13 +34,19 @@ export default async function (req, res, next) {
 
     switch (error.name) {
       case "TokenExpiredError":
-        return res.status(403).json({ errorMessage: "로그인이 필요한 기능입니다." });
+        return res
+          .status(403)
+          .json({ errorMessage: "로그인이 필요한 기능입니다." });
       case "JsonWebTokenError":
-        return res.status(403).json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
+        return res
+          .status(403)
+          .json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
       default:
         return res
           .status(403)
-          .json({ errorMessage: error.message ?? "게시글 작성에 실패하였습니다." });
+          .json({
+            errorMessage: error.message ?? "게시글 작성에 실패하였습니다.",
+          });
     }
   }
 }

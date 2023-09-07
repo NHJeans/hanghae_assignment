@@ -1,7 +1,12 @@
 // src/routes/comments.router.js
-import express from 'express';
-import { createComment, getComment, updateComment, deleteComment } from '../controllers/comments.controllers.js';
-import authMiddleware from '../middlewares/auth.middleware.js';
+import express from "express";
+import {
+  createComment,
+  getComment,
+  updateComment,
+  deleteComment,
+} from "../controllers/comments.controllers.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -19,7 +24,10 @@ router.get("/posts/:postId/comments", authMiddleware, getComment);
 // // 댓글 수정
 router.put("/posts/:postId/comments/:commentId", authMiddleware, updateComment);
 // // 댓글 삭제
-router.delete("/posts/:postId/comments/:commentId", authMiddleware, deleteComment);
-
+router.delete(
+  "/posts/:postId/comments/:commentId",
+  authMiddleware,
+  deleteComment
+);
 
 export default router;

@@ -7,24 +7,29 @@ class PostService {
   };
 
   listPosts = async () => {
-    const result = await PostRepository.listPosts()
-    return result
-  }
+    const result = await PostRepository.listPosts();
+    return result;
+  };
 
   getOnePost = async (postId) => {
-    const result = await PostRepository.getOnePost(postId)
-    return result
-  } 
+    const result = await PostRepository.getOnePost(postId);
+    return result;
+  };
 
   updatePost = async (userId, postId, title, content) => {
-    const result = await PostRepository.updatePost(userId, postId, title, content)
-    return result
-  }
+    const result = await PostRepository.updatePost(
+      userId,
+      postId,
+      title,
+      content
+    );
+    return result;
+  };
 
   deletePost = async (userId, postId) => {
-    const result = await PostRepository.deletePost(userId, postId)
-    return result
-  }
+    const result = await PostRepository.deletePost(userId, postId);
+    return result;
+  };
 }
 
 export default new PostService();
