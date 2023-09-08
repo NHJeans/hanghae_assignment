@@ -42,11 +42,9 @@ export default async function (req, res, next) {
           .status(403)
           .json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
       default:
-        return res
-          .status(403)
-          .json({
-            errorMessage: error.message ?? "게시글 작성에 실패하였습니다.",
-          });
+        return res.status(403).json({
+          errorMessage: error.message ?? "게시글 작성에 실패하였습니다.",
+        });
     }
   }
 }

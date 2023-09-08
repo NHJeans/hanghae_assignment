@@ -8,6 +8,7 @@ const asyncHandler = (fn) => {
   };
 };
 
+export default asyncHandler;
 // function asyncHandler(fn) {
 //   return async (req, res, next) => {
 //     try {
@@ -17,5 +18,3 @@ const asyncHandler = (fn) => {
 //     }
 //   };
 // }
-
-export default asyncHandler;
